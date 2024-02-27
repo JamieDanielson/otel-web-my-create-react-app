@@ -3,7 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { sdk } from './telemetry.js';
+import { HoneycombWebSDK } from '@honeycombio/opentelemetry-web';
+import { getWebAutoInstrumentations } from '@opentelemetry/auto-instrumentations-web';
+
+const sdk = new HoneycombWebSDK({
+  apiKey: 'YOUR_KEY_HERE',
+  serviceName: 'create-react-app',
+  instrumentations: [getWebAutoInstrumentations()], // add auto-instrumentation
+});
+sdk.start();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,7 +20,6 @@ root.render(
   </React.StrictMode>
 );
 
-sdk();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

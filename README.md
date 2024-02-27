@@ -16,12 +16,11 @@ npm install --save \
 
 [Get a Honeycomb API key](https://docs.honeycomb.io/quickstart/#create-a-honeycomb-account).
 
-### Create Telemetry file
+### Initialize Tracing
 
-Add `telemetry.js` with SDK setup, including your API Key:
+Initialize tracing at the start of your application by updating `index.js`:
 
 ```js
-// telemetry.js
 import { HoneycombWebSDK } from '@honeycombio/opentelemetry-web';
 import { getWebAutoInstrumentations } from '@opentelemetry/auto-instrumentations-web';
 
@@ -33,24 +32,6 @@ export function sdk() {
   });
   sdk.start();
 };
-```
-
-### Initialize Tracing
-
-Initialize tracing at the start of your application by updating `index.js`:
-
-```js
-// index.js
-import { sdk } from './telemetry.js';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-sdk();
 ```
 
 ### Run

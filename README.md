@@ -2,6 +2,61 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Instrumenting for Honeycomb
+
+### Install Packages
+
+```sh
+npm install --save \
+@honeycombio/opentelemetry-web \
+@opentelemetry/auto-instrumentations-web
+```
+
+### Get a Honeycomb API Key
+
+[Get a Honeycomb API key](https://docs.honeycomb.io/quickstart/#create-a-honeycomb-account).
+
+### Create Telemetry file
+
+Add `telemetry.js` with SDK setup, including your API Key:
+
+```js
+// telemetry.js
+import { HoneycombWebSDK } from '@honeycombio/opentelemetry-web';
+import { getWebAutoInstrumentations } from '@opentelemetry/auto-instrumentations-web';
+
+export function sdk() {
+  const sdk = new HoneycombWebSDK({
+    apiKey: 'YOUR_KEY_HERE',
+    serviceName: 'create-react-app',
+    instrumentations: [getWebAutoInstrumentations()], // add auto-instrumentation
+  });
+  sdk.start();
+};
+```
+
+### Initialize Tracing
+
+Initialize tracing at the start of your application by updating `index.js`:
+
+```js
+// index.js
+import { sdk } from './telemetry.js';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+sdk();
+```
+
+### Run
+
+Build and run your application, and then look for data in Honeycomb.
+
 ## Available Scripts
 
 In the project directory, you can run:
